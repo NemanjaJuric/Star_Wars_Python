@@ -1,0 +1,53 @@
+<div class = "hidden" id = "sledeca">9</div>
+<div class = "hidden" id = "prethodna">8</div>
+<h1>Lekcija 9</h1>
+<h3>Parni brojevi</h3>
+Hajdemo sada da izdvojimo parne brojeve u intervalu od 0 do 100.
+Za ovaj zadatak ćemo kao i za prethodni da koristimo <i>for</i> petlju.
+<br>
+<br>
+Da bismo uradili zadatak trebaće nam jedna nova fukcija koju do sada
+nismo spominjali. U pitanju je funkcija <code>range()</code>. Šta radi
+ova funkcija? Ako joj prosledimo neki prirodan broj <i>x</i>, funkcija 
+range(x) će napraviti niz brojeva od 0 do x-1.
+<br>
+<br>
+Znači, za rešenje ovog zadatka ćemo koristiti <i>for petlju</i>, <i>if</i>, 
+<i>%</i> i funkciju <i>range()</i>.
+<br>
+<br>
+Prvo, prolazićemo kroz petlju na sledeći način: 
+<br>
+<br>
+<code>for broj in range(100):</code>
+<br>
+<br>
+U petlji ćemo postaviti pitanje da li je broj paran i ako jeste prikazećemo ga
+koristeći funkciju print...
+<br>
+<br>
+<code>
+if (broj+1)%2==0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print (broj+1)
+</code>.
+<br>
+<br>
+Zašto smo umesto <code>broj</code> koristili <code>(broj+1)</code>? Kao što smo 
+rekli, range(broj) pravi niz brojeva od 0 do broj-1, pa će niz izgledati:
+<br>
+<br>
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9,..., 99
+<br>
+<br>
+Međutim, naš niz treba da izgleda:
+<br>
+<br>
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10,..., 100
+<br>
+<br>
+pa otuda i broj+1.
+<br>
+<br>
+Sada imaš sve potrebne delove, pokušaj da ih upakuješ u jedan program.
+<br>
+<br>

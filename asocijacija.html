@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=0.5">
+	<link rel = "stylesheet" type = "text/css" href = "bootstrap-3.3.5-dist/css/bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<link rel="shortcut icon" type="image/png" href = "">
+	<script src = "jquery/jquery-2.1.4.min.js"></script>
+	<script src = "bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+	<script src="skulpt/skulpt.min.js" type="text/javascript"></script> 
+	<script src="skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+
+	<link rel = "stylesheet" href= "codemirror/lib/codemirror.css">
+	<link rel = "stylesheet" href= "codemirror/theme/material.css">
+	<script src = "codemirror/lib/codemirror.js"></script>
+	<script src = "codemirror/mode/python/python.js"></script>
+	<script src = "codemirror/addon/selection/active-line.js"></script>
+
+</head>
+
+<body background="images/background.jpg">
+
+	<div class = "wrapper" id = "wraper">
+
+		<div id = "navigacija"></div>
+
+		<!-- pozadina -->
+		<div class = "pilot"></div>
+		<div class = "star"></div>
+		<audio loop id = "muzika">
+  			<source src="audio/final.mp3" type="audio/mpeg">
+		</audio>
+		<!-- zavrsava se pozadina -->
+
+		<!-- poeni -->
+		<div class = "poeni_plus" id = "poeni_plus">+20</div>
+		<!-- zavrsavaju se poeni -->
+
+		<!-- asocijacija -->
+		<div class = "asocijacija_wrapper">
+			<div class = "asocijacija">
+				<div class = "kolonaA">
+					<div class = "polje" data = "A1">A1</div>
+					<div class = "polje" data = "A2">A2</div>
+					<div class = "polje" data = "A3">A3</div>
+					<div class = "polje" data = "A4"><input class = "konacno_kolona" data = "kolona_A" placeholder = "Kolona A" autocomplete = "off"></input></div>
+				</div>
+				<div class = "kolonaB">
+					<div class = "polje" data = "B1">B1</div>
+					<div class = "polje" data = "B2">B2</div>
+					<div class = "polje" data = "B3">B3</div>
+					<div class = "polje" data = "B4"><input class = "konacno_kolona" data = "kolona_B" placeholder = "Kolona B" autocomplete = "off"></input></div>
+				</div>
+				<div class = "kolonaC">
+					<div class = "polje" data = "C4"><input class = "konacno_kolona" data = "kolona_C" placeholder = "Kolona C" autocomplete = "off"></input></div>
+					<div class = "polje" data = "C3">C3</div>
+					<div class = "polje" data = "C2">C2</div>
+					<div class = "polje" data = "C1">C1</div>
+				</div>
+				<div class = "kolonaD">
+					<div class = "polje" data = "D4"><input class = "konacno_kolona" data = "kolona_D" placeholder = "Kolona D" autocomplete = "off"></input></div>
+					<div class = "polje" data = "D3">D3</div>
+					<div class = "polje" data = "D2">D2</div>
+					<div class = "polje" data = "D1">D1</div>
+				</div>
+				<div class = "polje konacno" data = "konacno"><input class = "konacno_kolona" data = "konacno" placeholder = "Konačno" autocomplete = "off"></input></div>
+			</div>
+		</div>
+		<!-- zatvara se asocijacija -->
+
+</body>
+
+<!-- modal-->
+<div class="modal fade" id="pobeda" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/pilot.png" width = "20%">
+        <div class="modal-body"></div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="refresh" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/pilot.png" width = "20%">
+        <div class="modal-body">Kliknuo si refresh! Ne možeš da radiš asocijaciju više puta jer si već osvojio bodove!</div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<script type="text/javascript">
+
+	$("#navigacija").load("navigacija.html");
+
+	var otv_a = 0, otv_b = 0, otv_c = 0, otv_d = 0, otv_kon = 0;
+
+	var kol_a = 0, kol_b = 0, kol_c = 0, kol_d = 0;
+
+	$(document).ready(function(){
+		if (localStorage.getItem("asocijacija") == 1){
+			$('#refresh').modal('show');
+			$("input").each(function(){
+				$(this).attr("disabled", "true");
+			});
+		}
+		localStorage.setItem("asocijacija", 1);
+	})
+
+	function poeni_plus(poeni){
+		$("#poeni_plus").fadeIn();
+		$("#poeni_plus").html("+" + poeni);
+		setTimeout(function(){ $("#poeni_plus").fadeOut()}, 2000);
+	}
+
+	$(".polje").click(function(){
+
+		$(this).css("color", "white");
+
+		switch($(this).attr("data")){
+			case "A1": $(this).html("TV"); otv_a+=1; break;
+			case "A2": $(this).html("šema"); otv_a+=1; break;
+			case "A3": $(this).html("kanal"); otv_a+=1; break;
+			case "B1": $(this).html("klovnovi"); otv_b+=1; break;
+			case "B2": $(this).html("slonovi"); otv_b+=1; break;
+			case "B3": $(this).html("šator"); otv_b+=1; break;
+			case "C1": $(this).html("strani"); otv_c+=1; break;
+			case "C2": $(this).html("engleski"); otv_c+=1; break;
+			case "C3": $(this).html("usta"); otv_c+=1; break;
+			case "D1": $(this).html("kućište"); otv_d+=1; break;
+			case "D2": $(this).html("monitor"); otv_d+=1; break;
+			case "D3": $(this).html("tastatura"); otv_d+=1; break;
+		}
+	})
+
+	$(".konacno_kolona").bind("keyup", function(e){
+
+		if ( e.keyCode === 13 ) { 
+			switch($(this).attr("data")){
+				case "kolona_A": 
+					if ($(this).val() == "program"){
+						$(this).css("color", "#64dd17");
+						switch (otv_a){
+							case 1: points+=30; poeni_plus(30); break;
+							case 2: points+=20; poeni_plus(20); break;
+							case 3: points+=10; poeni_plus(10); break;
+						}
+						update_points(points);
+						$(this).attr("disabled", "true");
+						kol_a = 1;
+					}
+					else{
+						$(this).css("color", "red");
+						setTimeout(function(){
+  							$(".konacno_kolona").eq(0).val("");
+  							$(".konacno_kolona").eq(0).css("color", "gray");
+						}, 2000);
+					}; break;
+				case "kolona_B": 
+					if ($(this).val() == "cirkus"){
+						$(this).css("color", "#64dd17");
+						switch (otv_b){
+							case 1: points+=30; poeni_plus(30); break;
+							case 2: points+=20; poeni_plus(20); break;
+							case 3: points+=10; poeni_plus(10); break;
+						}
+						update_points(points);
+						$(this).attr("disabled", "true");
+						kol_b = 1;
+					}
+					else{
+						$(this).css("color", "red");
+						setTimeout(function(){
+  							$(".konacno_kolona").eq(1).val("");
+  							$(".konacno_kolona").eq(1).css("color", "gray");
+						}, 2000);
+					}; break;
+				case "kolona_C": 
+					if ($(this).val() == "jezik"){
+						$(this).css("color", "#64dd17");
+						switch (otv_c){
+							case 1: points+=30; poeni_plus(30); break;
+							case 2: points+=20; poeni_plus(20); break;
+							case 3: points+=10; poeni_plus(10); break;
+						}
+						update_points(points);
+						$(this).attr("disabled", "true");
+						kol_c = 1;
+					}
+					else{
+						$(this).css("color", "red");
+						setTimeout(function(){
+  							$(".konacno_kolona").eq(2).val("");
+  							$(".konacno_kolona").eq(2).css("color", "gray");
+						}, 2000);
+					}; break;
+				case "kolona_D": 
+					if ($(this).val() == "računar" || $(this).val() == "racunar" || $(this).val() == "kompjuter"){
+						$(this).css("color", "#64dd17");
+						switch (otv_d){
+							case 1: points+=30; poeni_plus(30); break;
+							case 2: points+=20; poeni_plus(20); break;
+							case 3: points+=10; poeni_plus(10); break;
+						}
+						update_points(points);
+						$(this).attr("disabled", "true");
+						kol_d = 1;
+					}
+					else{
+						$(this).css("color", "red");
+						setTimeout(function(){
+  							$(".konacno_kolona").eq(3).val("");
+  							$(".konacno_kolona").eq(3).css("color", "gray");
+						}, 2000);
+					}; break;
+				case "konacno": 
+					if ($(this).val() == "python" || $(this).val() == "pajton"){
+						$(this).css("color", "#64dd17");
+						switch (kol_a + kol_b + kol_c + kol_d){
+							case 0: points += 200; poeni_plus(200); break;
+							case 1: points += 160; poeni_plus(160); break;
+							case 2: points += 120; poeni_plus(120); break;
+							case 3: points += 80; poeni_plus(80); break;
+							case 4: points += 40; poeni_plus(40); break;
+						}
+						console.log(points);
+						update_points(points);
+						$("input").each(function(){
+							$(this).attr("disabled", "true");
+						});
+						$('#pobeda').modal('show');
+       					$('.modal-body').html("Bravo! Sve vreme sam verovao u tebe! Postaćeš pravi Džedaj!");
+       					$(".polje").eq(0).html("TV");
+						$(".polje").eq(1).html("šema");
+						$(".polje").eq(2).html("kanal");
+						$(".polje").eq(3).html("program");
+						$(".polje").eq(4).html("klovnovi");
+						$(".polje").eq(5).html("slonovi");
+						$(".polje").eq(6).html("šator");
+						$(".polje").eq(7).html("cirkus");
+						$(".polje").eq(8).html("jezik");
+						$(".polje").eq(9).html("strani");
+						$(".polje").eq(10).html("engleski");
+						$(".polje").eq(11).html("usta");
+						$(".polje").eq(12).html("kompjuter");
+						$(".polje").eq(13).html("kućište");
+						$(".polje").eq(14).html("monitor");
+						$(".polje").eq(15).html("tastatura");
+					}
+					else{
+						$(this).css("color", "red");
+						setTimeout(function(){
+  							$(".konacno_kolona").eq(4).val("");
+  							$(".konacno_kolona").eq(4).css("color", "gray");
+						}, 2000);
+					}; break;
+			}
+    	}
+
+	})
+	
+</script>
+
+</html>

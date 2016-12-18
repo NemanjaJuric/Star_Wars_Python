@@ -1,0 +1,65 @@
+<div class = "hidden" id = "sledeca">9</div>
+<div class = "hidden" id = "prethodna">7</div>
+<h1>Lekcija 8</h1>
+<h3>Koliko lešnika je veverica sakupila?</h3>
+Veverice su jako vredne, one cele godine skupljaju lešnike i skladište ih
+za zimu. Pretpostavimo da je neko posmatrao jednu vevericu i zapisivao
+koliko je koji mesec sakupila lešnika i broj lešnika beležio u jednu promenljivu
+<code>br_lesnika</code> koja je <mark>lista</mark>. 
+<br>
+<br>
+Šta je lista? Kao i svaka lista, ona u sebi sadrži elemente, a 
+ti elementi mogu biti celobrojne promenljive, realni brojevi, stringovi...
+<br>
+<br>
+Kako se to zapisuje u Pajtonu? Zapisuje se koristeći uglaste zagrade. Konkretno, 
+lista koji čuva broj sakupljenih lešnika naše veverice tokom 8 meseci izgleda ovako:
+<br>
+<br>
+<code>br_lesnika = [15, 20, 32, 18, 41, 12, 37, 22]</code>
+<br>
+<br>
+Pitanje je koliko je lešnika vevrica sakupila za zimu?
+<br>
+<br>
+Da bismo odgovorili na ovo pitanje, moramo proći kroz celu listu i sabrati sve njene elemente...
+To se postiže korišćenjem <mark>for petlje</mark>. Kako se piše for petlja?
+<br>
+<br>
+<code>
+	<i>for</i> x <i>in</i>lista<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;naredbe...
+</code>
+<br>
+<br>
+Šta konkretno radi for petlja? Za svaki element <mark>x</mark> neke liste, ona će izvršiti neke
+naredbe. U našem zadatku, ona treba da svaki element sabere sa nekim ukupnim brojem lešnika.
+Znači, nama treba neka promenljiva <code>ukupno</code> koja će na početku (pre bilo kakvog sabiranja) 
+biti <mark>inicijalizovana</mark> (postavljena) na 0. Kako budemo prolazili kroz listu, mi ćemo na ukupan 
+broj lešnika dodavati broj lešnika koje je veverica sakupila tokom svakog pojedinačnog meseca. 
+Kod za ceo zadatak izgleda ovako:
+<br>
+<br>
+<code>
+	br_lesnika = [15, 20, 32, 18, 41, 12, 37, 22]<br>
+	ukupno = 0;<br>
+	for x in br_lesnika:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;ukupno = ukupno + x<br>
+	print ukupno
+</code>
+<br>
+<br>
+Bitno je shvatiti da se for petlja izvršila onoliko puta koliko imamo elemenata u listi i da je svaki
+od tih elemenata bio dodeljen nekoj promenljivoj x. Ostalo je još samo pojasniti izraz
+<br>
+<br>
+<code>ukupno = ukupno + x</code>.
+<br>
+<br>
+Na početku je ukupan broj lešnika bio 0. Posle prvog prolaska kroz petlju, x je postao broj lešnika 
+koji je veverica sakupila prvog meseca. Promenljivoj ukupno smo dodelili vrednost ukupno + x, što je
+0 + 15, pa je promenljiva ukupno posle prvog prolaska kroz petlju imala vrednost 15. U sledećem
+prolazu kroz petlju x je postalo 20, a promenljivoj ukupno smo dodelili opet vrednost
+ukupno + x, što je 15 + 20 = 35... itd...
+<br>
+<br>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=0.5">
+	<link rel = "stylesheet" type = "text/css" href = "bootstrap-3.3.5-dist/css/bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<link rel="shortcut icon" type="image/png" href = "">
+	<script src = "jquery/jquery-2.1.4.min.js"></script>
+	<script src = "bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+	<script src="skulpt/skulpt.min.js" type="text/javascript"></script> 
+	<script src="skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+
+	<link rel = "stylesheet" href= "codemirror/lib/codemirror.css">
+	<link rel = "stylesheet" href= "codemirror/theme/material.css">
+	<script src = "codemirror/lib/codemirror.js"></script>
+	<script src = "codemirror/mode/python/python.js"></script>
+	<script src = "codemirror/addon/selection/active-line.js"></script>
+
+</head>
+
+<body background="images/wood.jpg">
+
+	<div class = "wrapper" id = "wraper">
+
+		<div id = "navigacija"></div>
+
+		<!-- pozadina -->
+		<div class = "kylo"></div>
+		<audio loop id = "muzika">
+  			<source src="audio/boss.mp3" type="audio/mpeg">
+		</audio>
+		<!-- zavrsava se pozadina -->
+
+		<div class="test">
+
+		<div class="test_body">
+
+			<h2>TEST</h2>
+
+			1. Koja funkcija se koristi za štampanje podataka?
+			<br>
+			<br>
+			<input type="radio" name="p1" id="rb11"> write<br>
+			<input type="radio" name="p1" id="rb12"> read<br>
+			<input type="radio" name="p1" id="rb13"> print<br>
+			<input type="radio" name="p1" id="rb14"> show<br>
+			<br>
+
+			2. 2**3 = ?
+			<br>
+			<br>
+			<input type="radio" name="p2" id="rb21"> 6<br>
+			<input type="radio" name="p2" id="rb22"> 8<br>
+			<input type="radio" name="p2" id="rb23"> 9<br>
+			<input type="radio" name="p2" id="rb24"> 12<br>
+			<br>
+
+			3. 19%3 = ?
+			<br>
+			<br>
+			<input type="radio" name="p3" id="rb31"> 6<br>
+			<input type="radio" name="p3" id="rb32"> 22<br>
+			<input type="radio" name="p3" id="rb33"> 1<br>
+			<input type="radio" name="p3" id="rb34"> 57<br>
+			<br>
+
+			4. len([1,2,3]) = ?
+			<br>
+			<br>
+			<input type="radio" name="p4" id="rb41"> 3<br>
+			<input type="radio" name="p4" id="rb42"> 6<br>
+			<input type="radio" name="p4" id="rb43"> 1<br>
+			<input type="radio" name="p4" id="rb44"> 5<br>
+			<br>
+
+			5. x = 2     x = x + 3     x = ?
+			<br>
+			<br>
+			<input type="radio" name="p5" id="rb51"> 5<br>
+			<input type="radio" name="p5" id="rb52"> 3<br>
+			<input type="radio" name="p5" id="rb53"> 1<br>
+			<input type="radio" name="p5" id="rb54"> 8<br>
+			<br>
+
+			<input type="button" class="button" id="proveri" value="Proveri">
+
+			<span id="rezultat"></span>
+
+		</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal fade" id="start" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<br>
+				<img src = "images/kylo.png" width = "20%">
+				<div class="modal-body">
+					Pred tobom je 5 kratkih pitanja. Pokušaj da odgovoriš tačno na sve!
+				</div>
+			</div>
+		</div>
+	</div> 
+
+	<div class="modal fade" id="poeni_modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<br>
+				<img src = "images/kylo.png" width = "20%">
+				<div class="modal-body" id="odgovor">
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+
+	$("#navigacija").load("navigacija.html");
+
+	$(document).ready(function(){
+		$("#start").modal("show");
+	})
+
+	localStorage.setItem("click_ind", "0");
+
+	$("#proveri").click(function(){
+
+		var zbir = 0;
+
+		if(document.getElementById("rb13").checked) zbir = zbir + 1;
+		if(document.getElementById("rb22").checked) zbir = zbir + 1;
+		if(document.getElementById("rb33").checked) zbir = zbir + 1;
+		if(document.getElementById("rb41").checked) zbir = zbir + 1;
+		if(document.getElementById("rb51").checked) zbir = zbir + 1;
+
+		if(localStorage.getItem("click_ind") == 1){
+			$("#poeni_modal").modal("show");
+			$("#odgovor").html("Broj tačnih odgovora: " + localStorage.getItem("zbir"));
+		}else{
+			localStorage.setItem("zbir", zbir);
+			$("#poeni_modal").modal("show");
+			$("#odgovor").html("Broj tačnih odgovora: " + localStorage.getItem("zbir"));
+			localStorage.setItem("click_ind", "1");
+		}
+	})
+		
+</script>
+
+</html>

@@ -1,0 +1,246 @@
+		<!-- navigacija -->
+		<div class = "navigation">
+			<button onclick = "menu()" class = "button" data-toggle="tooltip" data-placement="bottom" title="meni"><span class = "glyphicon glyphicon-th"></span></button>
+			<button onclick = "muzika()" class = "button" data-toggle="tooltip" data-placement="bottom" title="muzika"><span class = "glyphicon glyphicon-music"></span></button>
+			<button onclick = "zvuk()" class = "button" data-toggle="tooltip" data-placement="bottom" title="efekti"><span class = "glyphicon glyphicon-volume-up"></span></button> 
+			<div class = "navigation_right">
+				<img src = "images/coin.png" width = "40px">
+				<span id = "points"></span>&nbsp&nbsp
+				<span id = "ime_nav"></span>
+			</div>
+			<div class = "user_picture" id = "user_picture" data-toggle="tooltip" data-placement="left" title="odjavi se"></div>
+		</div>
+		<!-- zatvara se navigacija -->
+
+		<!-- zvukovi -->
+		<audio id = "click">
+  			<source src="audio/click.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id = "keyboard">
+  			<source src="audio/keyboard.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id = "bb8_sad">
+  			<source src="audio/bb8_sad.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id = "logout">
+  			<source src="audio/logout.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id = "level_complete">
+  			<source src="audio/level_comple.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id = "laugh">
+  			<source src="audio/laugh.mp3" type="audio/mpeg">
+		</audio>
+		<!-- zatvaraju se zvukovi -->
+
+		<!-- meni -->
+		<div class = "menu" id = "menu">
+			
+			<div class = "menu_option_wrapper">
+				<div class = "menu_option" data = "lekcija" style = "background-image: url('images/menu_lekcija.jpg')">lekcije</div>
+				<div class = "menu_option" data = "kretanje" style = "background-image: url('images/menu_kornjaca.jpg')">kornjača</div>
+				<div class = "menu_option" data = "test" style = "background-image: url('images/menu_test.jpg')">test</div>
+				<div class = "menu_option" data = "asocijacija" style = "background-image: url('images/menu_asocijacija.jpg')">asocijacija</div>
+				<div class = "menu_option" data = "about" style = "background-image: url('images/menu_about.jpg')">O školi</div>
+			</div>
+
+		</div>
+		<!-- zatvara se meni -->
+
+<!-- modal-->
+<div class="modal fade" id="upozorenje_asocijacija" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/pilot.png" width = "20%">
+        <div class="modal-body">Asocijacija je već rešavana i republički krediti su osvojeni!</div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="upozorenje_logout" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/bb8.png" width = "20%">
+        <div class="modal-body logout"></div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<script type="text/javascript">
+
+	var muzika_click, zvuk_click;
+
+	var ime, pol, points, lekcija;
+
+	$(document).click(function(){
+		document.getElementById('click').play();
+	})
+
+	$(document).keypress(function(){
+		document.getElementById('keyboard').play();
+	})
+
+	$(document).ready(function(){
+
+		ime = localStorage.getItem("ime");
+		pol = localStorage.getItem("pol");
+		points = parseInt(localStorage.getItem("points"));
+		lekcija = localStorage.getItem("lekcija");
+
+		$("#ime").html(ime);
+		$("#ime_nav").html(ime);
+		$("#points").html(points);
+
+		$('[data-toggle="tooltip"]').tooltip({
+    		trigger : 'hover'
+		})
+
+		if(pol == 'm') {
+			if(document.getElementById('jedi_man')){
+				document.getElementById('jedi_man').style.display = "block"; 
+				document.getElementById('jedi_woman').style.display = "none"; 
+			}
+			document.getElementById('user_picture').style.backgroundImage = "url('images/user_man.png')"; 
+
+		}
+		if(pol == 'z') {
+			if(document.getElementById('jedi_man')){
+				document.getElementById('jedi_man').style.display = "none"; 
+				document.getElementById('jedi_woman').style.display = "block"; 
+			}
+			document.getElementById('user_picture').style.backgroundImage = "url('images/user_woman.png')";
+		}
+
+		muzika_click = localStorage.getItem("muzika_click");
+		zvuk_click = localStorage.getItem("zvuk_click");
+
+		if (!(muzika_click == 0 || muzika_click == 1)) muzika_click = 0;
+		else if(muzika_click == 0) {
+			document.getElementById('muzika').play();
+			document.getElementsByClassName('button')[1].style.color = "rgba(255, 255, 255, 0.5)";
+		}
+		else {
+			document.getElementById('muzika').pause();
+			document.getElementsByClassName('button')[1].style.color = "rgba(255, 255, 255, 0.2)";
+		}
+
+		if (!(zvuk_click == 0 || zvuk_click == 1)) zvuk_click = 0;
+		else if(zvuk_click == 0) {
+			document.getElementById('click').volume = 1;
+			document.getElementById('keyboard').volume = 1;
+			document.getElementById('bb8_sad').volume = 1;
+			document.getElementById('logout').volume = 1;
+			document.getElementById('level_complete').volume = 1;
+			document.getElementById('laugh').volume = 1;
+			document.getElementsByClassName('button')[2].style.color = "rgba(255, 255, 255, 0.5)";
+		}	
+		else {
+			document.getElementById('click').volume = 0;
+			document.getElementById('keyboard').volume = 0;
+			document.getElementById('bb8_sad').volume = 0;
+			document.getElementById('logout').volume = 0;
+			document.getElementById('level_complete').volume = 0;
+			document.getElementById('laugh').volume = 0;
+			document.getElementsByClassName('button')[2].style.color = "rgba(255, 255, 255, 0.2)";
+		}
+	})
+
+	function muzika(){
+		if(muzika_click == 0) {
+			document.getElementById('muzika').pause();
+			document.getElementsByClassName('button')[1].style.color = "rgba(255, 255, 255, 0.2)";
+			muzika_click = 1;
+			localStorage.setItem("muzika_click", muzika_click);
+		}
+		else {
+			document.getElementById('muzika').play();
+			document.getElementsByClassName('button')[1].style.color = "rgba(255, 255, 255, 0.5)";
+			muzika_click = 0;
+			localStorage.setItem("muzika_click", muzika_click);
+		}
+		
+	}
+
+	function zvuk(){
+		if(zvuk_click == 0){
+			document.getElementById('click').volume = 0;
+			document.getElementById('keyboard').volume = 0;
+			document.getElementById('bb8_sad').volume = 0;
+			document.getElementById('logout').volume = 0;
+			document.getElementById('level_complete').volume = 0;
+			document.getElementById('laugh').volume = 0;
+			document.getElementsByClassName('button')[2].style.color = "rgba(255, 255, 255, 0.2)";
+			zvuk_click = 1;
+			localStorage.setItem("zvuk_click", zvuk_click);
+		}
+		else{
+			document.getElementById('click').volume = 1;
+			document.getElementById('keyboard').volume = 1;
+			document.getElementById('bb8_sad').volume = 1;
+			document.getElementById('logout').volume = 1;
+			document.getElementById('level_complete').volume = 1;
+			document.getElementById('laugh').volume = 1;
+			document.getElementsByClassName('button')[2].style.color = "rgba(255, 255, 255, 0.5)";
+			zvuk_click = 0;
+			localStorage.setItem("zvuk_click", zvuk_click);
+		}
+		
+	}
+
+	var menu_clicked = 0;
+
+	function menu(){
+		if(menu_clicked == 0){
+			$("#menu").fadeIn();
+			$(".button").eq(0).html("<span class = 'glyphicon glyphicon-remove'></span>");
+			menu_clicked = 1;
+		}
+		else{
+			$("#menu").fadeOut();
+			$(".button").eq(0).html("<span class = 'glyphicon glyphicon-th'></span>");
+			menu_clicked = 0;
+		}
+	}
+
+	$(".menu_option").click(function(){
+		switch($(this).attr("data")){
+			case "lekcija": location.replace("lekcija.html"); break;
+			case "kretanje": location.replace("kretanje.html"); break;
+			case "test": location.replace("test.html"); break;
+			case "asocijacija": 
+				if(localStorage.getItem("asocijacija") == 1){
+					$('#upozorenje_asocijacija').modal('show');
+				}
+				else{
+					location.replace("asocijacija.html");
+				}
+				break;
+			case "about": location.replace("about.html"); break;
+		}
+	})
+
+	$("#user_picture").click(function(){
+		$('#upozorenje_logout').modal('show');
+		if(pol == 'm')
+			$(".logout").html("Da li si siguran? Republički krediti ti neće biti sačuvani!<br><a href = 'index.html'>DA</a>");
+		else
+			$(".logout").html("Da li si sigurna? Republički krediti ti neće biti sačuvani!<br><a href = 'index.html'>DA</a>");
+		document.getElementById('logout').play();
+	})
+
+	function update_points(points){
+		$("#points").html(points);
+		localStorage.setItem("points", points);
+	}
+
+</script>

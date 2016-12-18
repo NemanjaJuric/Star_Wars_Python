@@ -1,0 +1,76 @@
+<div class = "hidden" id = "sledeca">7</div>
+<div class = "hidden" id = "prethodna">5</div>
+<h1>Lekcija 6</h1>
+<h3>Da li je broj paran?</h3>
+Za broj kažemo da je paran ako je deljiv brojem 2. Kako ovu rečenicu možemo
+reći pomoću ostataka?
+<br>
+<br>
+Možemo reći i ovako: Za broj kažemo da je paran ako pri deljenju brojem 2 
+daje ostatak 0. Da li postoji neki operator u Pajtonu koji nam može 
+pomoći oko ovog računa? U nekim od prethodnih lekcija smo videli da postoji
+operator <code>%</code>.
+<br>
+<br>
+Sada želimo da ispitamo da li je neki broj paran ili neparan. Napravćemo promenljivu
+<code>x</code> koja će biti ceo broj i dodelićemo joj neku vrednost, npr. <code>x = 10</code>.
+<br>
+<br>
+Sada ćemo uveti novu naredbu... <mark>if...else...</mark>. Šta if i else znače u prevodu
+sa engleskog jezika? - <mark>Ako... inače...</mark>.
+<br>
+<br>
+Možemo reći ovako: <mark>Ako</mark> je ostatak pri deljenju broja 10 brojem 2 jednak 0, broj 10 je paran, 
+<mark>inače</mark> je neparan. Sada samo da to još zapišemo u Pajtonu...
+<br>
+<br>
+<code>	
+x = 10<br>
+
+if x%2 == 0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print ("Broj je paran")<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print ("Broj je neparan")
+</code>
+<br>
+<br>
+Hajdemo da malo pojasnimo ovaj kod. If... else... naredba ima uvek sledeći oblik: 
+<br>
+<br>
+<code>
+if <i>uslov</i>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i>naredbe 1...</i><br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<i>naredbe 2...</i>
+</code>
+<br>
+<br>
+Ako je <i>uslov</i> ispunjen izvršavaće se <i>naredbe 1</i> koje se zovu još i 
+<mark>if grana</mark>. Ako uslov nije ispunjen, izvršavaće se <i>naredbe 2</i> koje
+se zovu još i <mark>else grana</mark>. Else grana nije obavezna!
+<br>
+<br>
+U uslovu možeš videti operator <code>==</code>. To je jedan od operatora poređenja i koristi se
+kada treba da utvrdimo da li su dve promenljive <mark>jednake</mark>. Pored ovog operatora koriste se još i: 
+<br>
+<br>
+<code>!=</code> - <mark>različito</mark>,
+<br>
+<br>
+<code>&lt;</code> - <mark>manje od</mark>,
+<br>
+<br>
+<code>&gt;</code> - <mark>veće od</mark>,
+<br>
+<br>
+<code>&lt;=</code> - <mark>manje ili jednako</mark> i 
+<br>
+<br>
+<code>&gt;=</code> - <mark>veće ili jednako</mark>.
+<br>
+<br>
+Bitno je napomenuti i da sve naredbe koje se nalaze u jednoj grani čine jedan <mark>blok</mark>.
+Blok se izdvaja od ostatka koda tako što svaku naredbu bloka uvučemo u odnosu na ostatak koda 
+obično pritiskom na <mark>Tab</mark>, ali može i sa <mark>space</mark> ili više tabova...
+<br>
+<br>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=0.5">
+	<link rel = "stylesheet" type = "text/css" href = "bootstrap-3.3.5-dist/css/bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<link rel="shortcut icon" type="image/png" href = "">
+	<script src = "jquery/jquery-2.1.4.min.js"></script>
+	<script src = "bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+</head>
+
+<body background="images/background_sky.png">
+
+	<div class = "wrapper">
+
+		<div id = "navigacija"></div>
+
+		<!-- pozadina -->
+
+		<div class = "planeta"></div>
+
+		<div class = "joda"></div>
+
+		<div class = "jedi_man" id = "jedi_man"></div>
+
+		<div class = "jedi_woman" id = "jedi_woman"></div>
+
+		<audio loop id = "muzika">
+  			<source src="audio/action.mp3" type="audio/mpeg">
+		</audio>
+		<!-- zavrsava se pozadina -->
+
+		<div class = "joda_text" id = "joda_text">
+			<br>
+			Zdravo! 
+			<br>
+			Čujem, <span id = "ime"></span> tvoje ime je.
+			<br>
+			Džedaj da postaneš želiš?
+			<br>
+			Prva lekcija: 
+			<br>
+			Python naučiti moraš.
+			<br>
+			...Neka Sila bude s'tobom!
+			<br>
+			<a href="lekcija.html">Dalje</a>
+		</div>
+			
+
+	</div>
+
+</body>
+
+<script type="text/javascript">
+
+	$("#navigacija").load("navigacija.html");
+
+	$(document).ready(function(){
+		$(".wrapper").css("display", "none");
+		$(".wrapper").fadeIn(2000);
+	})
+
+</script>
+
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=0.5">
+	<link rel = "stylesheet" type = "text/css" href = "bootstrap-3.3.5-dist/css/bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<link rel="shortcut icon" type="image/png" href = "">
+	<script src = "jquery/jquery-2.1.4.min.js"></script>
+	<script src = "bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+	<script src="skulpt/skulpt.min.js" type="text/javascript"></script> 
+	<script src="skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+
+	<link rel = "stylesheet" href= "codemirror/lib/codemirror.css">
+	<link rel = "stylesheet" href= "codemirror/theme/material.css">
+	<script src = "codemirror/lib/codemirror.js"></script>
+	<script src = "codemirror/mode/python/python.js"></script>
+	<script src = "codemirror/addon/selection/active-line.js"></script>
+
+</head>
+
+<body background="images/background.jpg">
+
+	<div class = "wrapper" id = "wraper">
+
+		<div id = "navigacija"></div>
+
+		<div class = "strelice">
+			<button class = "button" onclick="run()" data-toggle="tooltip" data-placement="bottom" title="probaj"><span class = "glyphicon glyphicon-play"></span></button> 
+			<button class = "button" onclick = "resetuj()" data-toggle="tooltip" data-placement="bottom" title="reset"><span class = "glyphicon glyphicon-trash"></span></button>
+			<button class = "button strelica" onclick="prethodna_lekcija()"data-toggle="tooltip" data-placement="bottom" title="nazad"><span class = "glyphicon glyphicon-chevron-left"></span></button>
+			<button class = "button strelica" onclick="sledeca_lekcija()" data-toggle="tooltip" data-placement="bottom" title="napred"><span class = "glyphicon glyphicon-chevron-right"></span></button>
+		</div>
+
+		<audio loop id = "muzika">
+  			<source src="audio/action.mp3" type="audio/mpeg">
+		</audio>
+
+		<!-- mreza -->
+		<div class = "mreza">
+			<div class = "kvadrat" id = "11"></div>
+			<div class = "kvadrat" id = "21"></div>
+			<div class = "kvadrat" id = "31"></div>
+			<div class = "kvadrat" id = "41"></div>
+			<div class = "kvadrat" id = "51"></div>
+
+			<div class = "kvadrat" id = "12"></div>
+			<div class = "kvadrat" id = "22"></div>
+			<div class = "kvadrat" id = "32"></div>
+			<div class = "kvadrat" id = "42"></div>
+			<div class = "kvadrat" id = "52"></div>
+
+			<div class = "kvadrat" id = "13"></div>
+			<div class = "kvadrat" id = "23"></div>
+			<div class = "kvadrat" id = "33"></div>
+			<div class = "kvadrat" id = "43"></div>
+			<div class = "kvadrat" id = "53"></div>
+
+			<div class = "kvadrat" id = "14"></div>
+			<div class = "kvadrat" id = "24"></div>
+			<div class = "kvadrat" id = "34"></div>
+			<div class = "kvadrat" id = "44"></div>
+			<div class = "kvadrat" id = "54"></div>
+
+			<div class = "kvadrat" id = "15"></div>
+			<div class = "kvadrat" id = "25"></div>
+			<div class = "kvadrat" id = "35"></div>
+			<div class = "kvadrat" id = "45"></div>
+			<div class = "kvadrat" id = "55"></div>
+
+			<div class = "kvadrat robot" id = "robot"></div>
+		</div>
+
+		<div class = "komande"> 
+				<input type = "text" class = "name" id = "broj_koraka_napred" autofocus autocomplete="off" style = "width: 80px">
+				<button class = "button komanda" onclick = "idi_napred()" data-toggle="tooltip" data-placement="bottom" title="napred">koraka napred</button>
+				<br>
+				<button class = "button komanda" onclick = "okreni_robota_levo()" data-toggle="tooltip" data-placement="left" title="levo">levo</button> 
+				<button class = "button komanda" onclick = "okreni_robota_desno()" data-toggle="tooltip" data-placement="right" title="desno">desno</button>
+		</div>
+
+		<div style = "position: fixed; top: 80px; right: 20px; display: none;">
+			<textarea id = "ta_komande" rows = "10" cols = "50" autocomplete="off"></textarea>
+		</div>
+
+		<div class = "turtle_komande" id = "turtle_komande">
+			import turtle<br>             
+ 			svemir = turtle.Screen()<br>      
+ 			bb8 = turtle.Turtle()<br><br> 
+		</div>
+
+</body>
+
+<!-- modal-->
+<div class="modal fade" id="princeza" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Bravo, uspešno si rešio zadatak!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="dart" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/dart.png" width = "40%">
+        <div class="modal-body">
+        	Nisi uspeo, probaj ponovo!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="dart_polje" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/dart.png" width = "40%">
+        <div class="modal-body">
+        	Izašao si van polja! Pokušaj ponovo!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="princeza_broj_koraka" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Prvo moraš uneti broj koraka!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija1" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 1/10
+        	<br>
+        	Pokusaj da sa svojim bb8 stignes do mene po zadatoj putanji koristeći najmanji broj komandi!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija2" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 2/10
+        	<br>
+        	bb8 zna da ide samo napred! Ako želiš da skreneš, moraš ga prvo okrenuti na pravu stranu, pa opet
+        	nastaviti napred...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija3" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 3/10
+        	<br>
+        	Putanja postaje komplikovanija...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija4" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 4/10
+        	<br>
+        	Postaje sve teže...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija5" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 5/10
+        	<br>
+        	Prvo moras doći do mene, a onda se vratiti do pilota! Moraš se okrenuti dva puta u istu stranu...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija6" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 6/10
+        	<br>
+        	Možeš ti ovo, nije toliko teško...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija7" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 7/10
+        	<br>
+        	Napravi kvadrat od putanje svog robota. Zadatak možeš rešiti na dva načina!
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija8" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 8/10
+        	<br>
+        	Hajdemo sada da idemo po stepenicama...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija9" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 9/10
+        	<br>
+        	Sada je i ova putanja laka...
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<!-- modal-->
+<div class="modal fade" id="lekcija10" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    	<br>
+    	<img src = "images/princeza.png" width = "40%">
+        <div class="modal-body">
+        	Zadatak 10/10
+        	<br>
+        	Poslednji zadatak! Upravljaj svog robota da ide po spirali.
+        </div>
+	</div>
+    </div>
+</div> 
+<!--zatvara se modal-->
+
+<script type="text/javascript">
+
+	$("#navigacija").load("navigacija.html");
+
+	var lekcija_kretanje, provera;
+
+	function resetuj(){
+		location.reload(); 
+	}
+
+    $(document).ready(function(){
+
+    	ucitaj_lekciju_kretanje();
+ 
+		cw = $('.kvadrat').width();
+
+		$('.kvadrat').css({'height':cw+'px'});
+		$('.robot').css({'width':cw+'px'});
+		$('.robot').css({'height':cw+'px'});
+    })
+
+	$(window).resize(function() {
+		cw = $('.kvadrat').width();
+		$('.kvadrat').css({'height':cw+'px'});
+		$('.robot').css({'width':cw+'px'});
+		$('.robot').css({'height':cw+'px'});
+	})
+
+	function sledeca_lekcija(){
+		lekcija_kretanje = parseInt(localStorage.getItem("lekcija_kretanje"));
+		lekcija_kretanje += 1;
+		if(lekcija_kretanje > 10) lekcija_kretanje = 10;
+		localStorage.setItem("lekcija_kretanje", lekcija_kretanje);
+		ucitaj_lekciju_kretanje();
+		location.reload();
+	}
+
+	function prethodna_lekcija(){
+		lekcija_kretanje = parseInt(localStorage.getItem("lekcija_kretanje"));
+		lekcija_kretanje -= 1;
+		if(lekcija_kretanje < 1) lekcija_kretanje = 1;
+		localStorage.setItem("lekcija_kretanje", lekcija_kretanje);
+		ucitaj_lekciju_kretanje();
+		location.reload();
+	}
+
+	function ucitaj_lekciju_kretanje(){
+	
+		lekcija_kretanje = parseInt(localStorage.getItem("lekcija_kretanje"));
+		
+		switch (lekcija_kretanje){
+			case 1: postavi_princezu(3,1); oznaci_polja(11, 21, 31); $("#lekcija1").modal('show'); break;
+			case 2: postavi_princezu(4,3); oznaci_polja(11, 21, 31, 41, 42, 43); $("#lekcija2").modal('show'); break;
+			case 3: postavi_princezu(5,5); oznaci_polja(11, 21, 31, 32, 33, 34, 35, 45, 55); $("#lekcija3").modal('show'); break;
+			case 4: postavi_princezu(3,3); oznaci_polja(11, 12, 13, 14, 15, 25, 35, 45, 55, 54, 53, 43, 33); $("#lekcija4").modal('show'); break;
+			case 5: postavi_princezu(5,1); postavi_pilota(3,1); oznaci_polja_2(11, 21, 31, 41, 51); $("#lekcija5").modal('show'); break;
+			case 6: postavi_princezu(5,5); postavi_pilota(3,3); oznaci_polja_2(11, 21, 31, 41, 51, 52, 53, 54, 55, 43, 33); $("#lekcija6").modal('show'); break;
+			case 7: oznaci_polja_3(11, 21, 31, 41, 51, 52, 53, 54, 55, 45, 35, 25, 15, 14, 13, 12); $("#lekcija7").modal('show'); break;
+			case 8: oznaci_polja_3(11, 12, 22, 23, 33, 34, 44, 45, 55); $("#lekcija8").modal('show'); break;
+			case 9: oznaci_polja_3(11, 12, 22, 23, 33, 34, 44, 45, 55, 54, 53, 52, 51, 41, 31); $("#lekcija9").modal('show'); break;
+			case 10: oznaci_polja_3(11, 21, 31, 41, 51, 52, 53, 54, 55, 45, 35, 25, 15, 14, 13, 23, 33); $("#lekcija10").modal('show'); break;
+		}
+	}
+
+	function provera(text){
+		lekcija_kretanje = parseInt(localStorage.getItem("lekcija_kretanje"));
+		switch(lekcija_kretanje){
+			case 1: if (text == '2') {provera = 1;} else provera = 0; break;
+			case 2: if (text == '3d2') {provera = 1;} else provera = 0; break;
+			case 3: if (text == '2d4l2') {provera = 1;} else provera = 0; break;
+			case 4: if (text == 'd4l4l2l2') {provera = 1;} else provera = 0; break;
+			case 5: if (text == '4dd2' || text == '4ll2') {provera = 1;} else provera = 0; break;
+			case 6: if (text == '4d4dd2l2' || text == '4d4ll2l2') {provera = 1;} else provera = 0; break;
+			case 7: if (text == '4d4d4d4' || text == '4l4l4l4') {provera = 1;} else provera = 0; break;
+			case 8: if (text == 'd1l1d1l1d1l1d1l1') {provera = 1;} else provera = 0; break;
+			case 9: if (text == 'd1l1d1l1d1l1d1l1l4l2') {provera = 1;} else provera = 0; break;
+			case 10: if (text == '4d4d4d2d2') {provera = 1;} else provera = 0; break;
+		}
+	}
+
+	var prekini_kretanje = 0;
+
+	function provera_polja(x, y){
+		if(x > 4 || y > 4){ 
+			$("#dart_polje").modal('show');
+			provera = 2;
+			document.getElementById('laugh').play(); 
+			prekini_kretanje = 1;
+			setTimeout(function(){ location.reload(); }, 5000);
+		} 
+	}
+
+	function oznaci_polja(){
+		for(i = 0; i < arguments.length; i++){
+			$("#" + arguments[i]).css("background-color","rgba(0, 255, 255, 0.5)");
+		}
+	}
+
+	function oznaci_polja_2(){
+		for(i = 0; i < arguments.length; i++){
+			$("#" + arguments[i]).css("background-color","rgba(255, 210, 0, 0.5)");
+		}
+	}
+
+	function oznaci_polja_3(){
+		for(i = 0; i < arguments.length; i++){
+			$("#" + arguments[i]).css("background-color","rgba(0, 200, 100, 0.5)");
+		}
+	}
+
+	function prikazi_poruku(){
+		lekcija_kretanje = parseInt(localStorage.getItem("lekcija_kretanje"));
+		if(provera == 1) setTimeout(function(){ $("#princeza").modal('show'); document.getElementById('level_complete').play(); setTimeout(function(){ sledeca_lekcija(); }, 5000); }, korak * 2000);
+		if(provera == 0) setTimeout(function(){ $("#dart").modal('show'); document.getElementById('laugh').play(); setTimeout(function(){ location.reload(); }, 5000); }, korak * 2000);		
+	}
+
+	var dart_x = [], dart_y = [], angle = 0, korak = 0;
+
+	function postavi_princezu(x,y){
+		$("#" + x + y).css("background-image","url('images/princeza.png')");
+	}
+
+	function postavi_pilota(x,y){
+		$("#" + x + y).css("background-image","url('images/pilot_kvadrat.png')");
+	}
+
+	function rotiraj_robota(strana){
+		if(strana == "levo"){
+			ugao = 270;
+			angle = angle + ugao;
+			if (angle >= 360) angle = angle - 360;
+		}
+		else if(strana == "desno"){
+			ugao = 90;
+			angle = angle + ugao;
+			if (angle >= 360) angle = angle - 360;
+		}else{
+			ugao = 0;
+			angle = angle + ugao;
+			if (angle >= 360) angle = angle - 360;
+		}
+		$("#robot").css({'-webkit-transform' : 'rotate('+ angle +'deg)',
+                 '-moz-transform' : 'rotate('+ angle +'deg)',
+                 '-ms-transform' : 'rotate('+ angle +'deg)',
+                 'transform' : 'rotate('+ angle +'deg)'});	
+	}
+
+	function kretanje(broj, stepeni, rotacija){
+		
+		if(prekini_kretanje == 0){
+
+			duzinaX = parseInt(broj) * ($('.kvadrat').width() + 5);
+			duzinaY = parseInt(broj) * ($('.kvadrat').width() + 5);
+		
+			ugao = parseInt(stepeni);
+
+			switch(ugao){
+				case 0: $("#robot").animate({
+    						left: duzinaX + 'px'
+  							}, 2000, function() {
+    						rotiraj_robota(rotacija);
+  						}); break;
+
+				case 90: $("#robot").animate({
+    						top: duzinaY + 'px'
+  							}, 2000, function() {
+    						rotiraj_robota(rotacija);
+  						}); break;
+
+				case 180: $("#robot").animate({
+    						left: duzinaX + 'px'
+  							}, 2000, function() {
+    						rotiraj_robota(rotacija);;
+  						}); break;
+
+				case 270: $("#robot").animate({
+    						top: duzinaY + 'px'
+  							}, 2000, function() {
+    						rotiraj_robota(rotacija);
+  						}); break;
+			}
+		}
+		
+	}
+
+	function idi_napred(){
+		broj_koraka_napred = $("#broj_koraka_napred").val();
+		if(!(broj_koraka_napred > 0)){
+			$("#princeza_broj_koraka").modal('show');
+		}
+		else{
+			$("#broj_koraka_napred").val("")
+			$("#ta_komande").val($("#ta_komande").val() +  broj_koraka_napred + "\n");
+			$("#turtle_komande").html($("#turtle_komande").html() + "bb8.forward(" + broj_koraka_napred + ")<br>");
+		}
+	}
+
+	function okreni_robota_levo(){
+		$("#ta_komande").val($("#ta_komande").val() + "l" + "\n");
+		$("#turtle_komande").html($("#turtle_komande").html() + "bb8.left(90)<br>");
+	}
+
+	function okreni_robota_desno(){
+		$("#ta_komande").val($("#ta_komande").val() + "d" + "\n");
+		$("#turtle_komande").html($("#turtle_komande").html() + "bb8.right(90)<br>");
+	}
+
+	function run(){
+		
+		var area = document.getElementById("ta_komande"); 
+
+		var lines = area.value.replace(/\r\n/g,"\n").split("\n");
+
+		var text_funkcije = '';
+
+		var trenutno_x = 0, trenutno_y = 0, trenutni_ugao = '0';
+
+		for(i = 0; i<lines.length-1; i++){
+			
+			//console.log(lines[i]);
+
+			if(lines[i] == 'l'){
+				trenutni_ugao = parseInt(trenutni_ugao) + 90;
+				if (trenutni_ugao >= 360) trenutni_ugao = trenutni_ugao - 360;
+				text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'levo');";
+				provera_polja(trenutno_x, trenutno_y);
+				korak+=1;
+			}
+			else if(lines[i] == 'd'){
+					trenutni_ugao = parseInt(trenutni_ugao) + 270;
+					if (trenutni_ugao >= 360) trenutni_ugao = trenutni_ugao - 360;	
+					text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'desno');";
+					provera_polja(trenutno_x, trenutno_y);
+					korak+=1;
+				}
+			else{
+				if(lines[i+1] == 'l') {
+					if (trenutni_ugao >= 360) trenutni_ugao = trenutni_ugao - 360; 
+					if(trenutni_ugao == 0){
+						trenutno_x = parseInt(trenutno_x) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'levo');";
+						provera_polja(trenutno_x, trenutno_y);
+						console.log(trenutno_x);
+						korak+=1;
+					}
+					if(trenutni_ugao == 180){
+						trenutno_x = parseInt(trenutno_x) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'levo');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == 270){
+						trenutno_y = parseInt(trenutno_y) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'levo');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == 90){
+						trenutno_y = parseInt(trenutno_y) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'levo');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					trenutni_ugao = parseInt(trenutni_ugao) + 90;
+					i++;
+				}else
+				if(lines[i+1] == 'd') {				
+					if (trenutni_ugao >= 360) trenutni_ugao = trenutni_ugao - 360;
+					if(trenutni_ugao == 0){
+						trenutno_x = parseInt(trenutno_x) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'desno');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == 180){
+						trenutno_x = parseInt(trenutno_x) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'desno');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == 270){
+						trenutno_y = parseInt(trenutno_y) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'desno');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == 90){
+						trenutno_y = parseInt(trenutno_y) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'desno');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					trenutni_ugao = parseInt(trenutni_ugao) + 270;
+					i++;
+				}else{
+					if (trenutni_ugao >= 360) trenutni_ugao = trenutni_ugao - 360;
+					if(trenutni_ugao == '0'){
+						trenutno_x = parseInt(trenutno_x) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == '180'){
+						trenutno_x = parseInt(trenutno_x) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_x+","+trenutni_ugao+",'');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == '270'){
+						trenutno_y = parseInt(trenutno_y) + parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+					if(trenutni_ugao == '90'){
+						trenutno_y = parseInt(trenutno_y) - parseInt(lines[i]);
+						text_funkcije = text_funkcije + "kretanje("+trenutno_y+","+trenutni_ugao+",'');";
+						provera_polja(trenutno_x, trenutno_y);
+						korak+=1;
+					}
+				}
+			}
+			
+		}
+
+		provera(lines.join(""));
+		prikazi_poruku();
+
+		eval("var fn = function(){" + text_funkcije + "}");
+		fn();
+	}
+
+
+</script>
+
+</html>

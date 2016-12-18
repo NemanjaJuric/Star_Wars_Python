@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=0.5">
+	<link rel = "stylesheet" type = "text/css" href = "bootstrap-3.3.5-dist/css/bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<link rel="shortcut icon" type="image/png" href = "">
+	<script src = "jquery/jquery-2.1.4.min.js"></script>
+	<script src = "bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+</head>
+
+<body background="images/background.jpg">
+
+	<div class = "login">
+
+		<img src = 'images/logo.png' class = "logo">
+		<br>
+		<br>
+		<img src = 'images/logo_py.png' class = "logo_py">
+		<br>
+		<br>
+
+		<div class = "login_name">
+
+			<br>
+
+			<input type = "text" class = "name" id = "name" autofocus autocomplete="off">
+
+			<br>
+
+			<button class = "btn_transparent" onclick = "musko()" id = "musko">muško</button>
+			<button class = "btn_transparent" onclick = "zensko()" id = "zensko">žensko</button>
+
+			<br>
+
+			<button class = "btn_transparent" onclick = "dalje()">Dalje</button>
+
+			<br>
+
+		</div>
+
+	</div>
+
+	<audio autoplay loop>
+  		<source src="audio/title.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio id = "click">
+  		<source src="audio/click.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio id = "keyboard">
+  		<source src="audio/keyboard.mp3" type="audio/mpeg">
+	</audio>
+
+	<div class="modal fade" id="upozorenje" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					Moraš prvo popuniti polje za ime i izabrati pol.
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script>
+
+	var pol;
+
+	$(document).ready(function(){
+		$(".login").css("display", "none");
+		$(".login").fadeIn(1000);
+	})
+
+	function dalje(){
+		var ime = document.getElementById("name").value;
+		if(ime.length == 0 || typeof pol == "undefined"){
+			$("#upozorenje").modal("show");
+		}else{
+			localStorage.setItem("ime", ime);
+			var points = 0;
+			localStorage.setItem("points", points);
+			localStorage.setItem("asocijacija", 0);
+			localStorage.setItem("lekcija_kretanje", 1);
+			localStorage.setItem("lekcija", "1");
+			$(".login").fadeOut(1000);
+			setTimeout(function(){
+				window.location = "joda.html";
+			}, 2000);
+		}
+	}
+
+	function musko(){
+		document.getElementById('musko').style.background = "#ffde00";
+		document.getElementById('musko').style.color = "black";
+		document.getElementById('zensko').style.background = "transparent";
+		document.getElementById('zensko').style.color = "#ffde00";
+		pol = 'm';
+		localStorage.setItem("pol", pol);
+	}
+
+	function zensko(){
+		document.getElementById('zensko').style.background = "#ffde00";
+		document.getElementById('zensko').style.color = "black";
+		document.getElementById('musko').style.background = "transparent";
+		document.getElementById('musko').style.color = "#ffde00";
+		pol = 'z';
+		localStorage.setItem("pol", pol);
+	}
+
+	$(document).click(function(){
+		document.getElementById('click').play();
+	})
+
+	$(document).keypress(function(){
+		document.getElementById('keyboard').play();
+	})
+
+</script>
+
+</html>
